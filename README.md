@@ -1,38 +1,78 @@
 ```
 {
-    "log": {
-      "level": "info",
-      "output": "stdout"
-    },
-    "outbounds": [
-      {
-        "type": "hysteria2",
-        "server": "193.32.148.226",
-        "server_port": 4406,
-        "up_mbps": 100,
-        "down_mbps": 100,
-        "password":"7788421",
-        "tls": {
-          "enabled": true,
-          "server_name": "bing.com",
-          "insecure": true
+    "dns": {
+      "servers": [
+        {
+          "tag": "google",
+          "address": "tls://8.8.8.8"
+        },
+        {
+          "tag": "local",
+          "address": "223.5.5.5",
+          "detour": "direct"
         }
-      }
-    ],
-    "inbounds": [
+      ],
+      "rules": [
+        {
+          "outbound": "any",
+          "server": "local"
+        }
+      ]
+    },
+ "inbounds": [
+    {
+      "type": "tun",
+      "inet4_address": "198.18.0.1/16",
+      "auto_route": true,
+      "stack": "mixed",
+      "sniff": true
+    },
+    {
+      "type": "socks",
+      "tag": "socks-in",
+      "listen": "::",
+      "listen_port": 5353
+    }
+  ],
+    "outbounds": [
+       
+              {
+                "type": "hysteria2",
+                "server": "193.32.148.226",
+                "server_port": 4406,
+                "up_mbps": 100,
+                "down_mbps": 100,
+                "password": "7788421",
+                "tls": {
+                  "enabled": true,
+                  "server_name": "bing",
+                  "insecure": true
+                }
+              },
+         
       {
-        "type": "socks",
-        "tag": "socks-in",
-        "listen": "127.0.0.1",
-        "listen_port": 1086
+        "type": "direct",
+        "tag": "direct"
       },
       {
-        "type": "http",
-        "tag": "http-in",
-        "listen": "127.0.0.1",
-        "listen_port": 9876
+        "type": "dns",
+        "tag": "dns-out"
       }
-    ]
+    ],
+    "route": {
+      "rules": [
+        {
+          "protocol": "dns",
+          "outbound": "dns-out"
+        },
+        {
+          "geoip": [
+            "private"
+          ],
+          "outbound": "direct"
+        }
+      ],
+      "auto_detect_interface": true
+    }
   }
-  
 ```
