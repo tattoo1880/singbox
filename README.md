@@ -38,7 +38,7 @@
        
               {
                 "type": "hysteria2",
-                "server": "65.49.233.120",
+                "server": "185.200.64.73",
                 "server_port": 443,
                 "up_mbps": 100,
                 "down_mbps": 100,
