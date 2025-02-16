@@ -39,7 +39,7 @@
     "outbounds": [
         {
             "type": "hysteria2",
-            "server": "185.200.64.73",
+            "server": "193.32.150.11",
             "server_port": 443,
             "up_mbps": 100,
             "down_mbps": 100,
